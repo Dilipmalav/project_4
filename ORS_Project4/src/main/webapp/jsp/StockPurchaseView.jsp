@@ -98,8 +98,6 @@
 
 					<td><input type="text" name="purchasePrice"
 						placeholder="Enter purchasePrice" size="25"
-						 oninput="handleIntegerInput(this, 'purchasePriceError', 20)"
-						onblur="validateIntegerInput(this, 'purchasePriceError', 20)"
 							value="<%=DataUtility.getDoublee(bean.getPurchasePrice())%>">
 						<font color="red"  id="purchasePriceError"> <%=ServletUtility.getErrorMessage("purchasePrice", request)%></td>
 				</tr>

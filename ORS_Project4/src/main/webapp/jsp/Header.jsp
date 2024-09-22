@@ -120,9 +120,11 @@
          <a href="<%=ORSView.TRADEHISTORY_CTL%>">Add TradeHistory</b></a> |
         <a href="<%=ORSView.TRADEHISTORY_LIST_CTL%>">TradeHistory List</b></a> |
         
-          <a href="<%=ORSView.STOCKPURCHASE_CTL%>">Add StockPurchase</b></a> |
-        <a href="<%=ORSView.STOCKPURCHASE_LIST_CTL%>">StockPurchase List</b></a> |
+           <a href="<%=ORSView.STOCKPURCHASE_CTL%>">Add StockPurchase</b></a> |
+        <a href="<%=ORSView.STOCKPURCHASE_LIST_CTL%>">StockPurchase List</b></a> | 
        
+         <a href="<%=ORSView.PORTFOLIOMANAGEMENT_CTL%>">Add PortfolioManagement</b></a> |
+        <a href="<%=ORSView.PORTFOLIOMANAGEMENT_LIST_CTL%>">PortfolioManagement List</b></a> |
         
         <a target="blank" href="<%=ORSView.JAVA_DOC_VIEW%>">Java Doc</b></a> |
        <%

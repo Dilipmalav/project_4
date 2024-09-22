@@ -62,8 +62,8 @@ public class StockPurchaseCtl extends BaseCtl {
 		}
 
 		/*
-		 * else if (!DataValidator.isName(request.getParameter("customer"))) {
-		 * request.setAttribute("customer", "customer  must contains alphabet only");
+		 * else if (!DataValidator.isName(request.getParameter("orderType"))) {
+		 * request.setAttribute("orderType", "orderType  must contains alphabet only");
 		 * pass = false; }
 		 */
 		return pass;

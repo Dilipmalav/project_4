@@ -16,13 +16,15 @@ function handleIntegerInput(inputElement, errorElementId, maxLength) {
     inputElement.value = inputElement.value.replace(/^0+(?=\d)/, '').slice(0, maxLength);
 }
 
-function doubleValue(value) {
-    if (typeof value === 'number') {
-        return value * 2; // Value ko double karna
+
+function processNumber(num) {
+    if (typeof num === 'number' && !isNaN(num)) {
+        return `${num} is a number.`;
     } else {
-        throw new Error("Input must be a number");
+        throw new TypeError("Only numbers (int and float) are allowed.");
     }
 }
+
 
 function validateAlphanumericInput(inputElement, errorElementId, maxLength) {
     const errorMessage = document.getElementById(errorElementId);

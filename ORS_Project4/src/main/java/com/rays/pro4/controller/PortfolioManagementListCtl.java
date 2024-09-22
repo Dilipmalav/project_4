@@ -1,4 +1,3 @@
-
 package com.rays.pro4.controller;
 
 import java.io.IOException;
@@ -14,57 +13,61 @@ import javax.servlet.http.HttpServletResponse;
 
 
 import com.rays.pro4.Bean.BaseBean;
-import com.rays.pro4.Bean.StockPurchaseBean;
+import com.rays.pro4.Bean.PortfolioManagementBean;
 import com.rays.pro4.Exception.ApplicationException;
-import com.rays.pro4.Model.StockPurchaseModel;
+import com.rays.pro4.Model.PortfolioManagementModel;
 import com.rays.pro4.Util.DataUtility;
 import com.rays.pro4.Util.PropertyReader;
 import com.rays.pro4.Util.ServletUtility;
 
-@WebServlet(name = "StockPurchaseListCtl", urlPatterns = { "/ctl/StockPurchaseListCtl" })
-public class StockPurchaseListCtl extends BaseCtl {
-	
+@WebServlet(name = "PortfolioManagementListCtl", urlPatterns = { "/ctl/PortfolioManagementListCtl" })
+public class PortfolioManagementListCtl extends BaseCtl {
 	@Override
-	protected void preload(HttpServletRequest request) {
-		
-		StockPurchaseModel model = new StockPurchaseModel();
-		Map<Integer, String> map = new HashMap();
 
-		map.put(1, "Market");
-		map.put(2, "Limit");
+	protected void preload(HttpServletRequest request) {
+		PortfolioManagementModel model = new PortfolioManagementModel();
+		Map <Integer,String > map = new HashMap();
 		
-		request.setAttribute("ilnes", map);
+		map.put(1, "Low");
+		map.put(2, "Medium");
+		map.put(3, "High");
+		
+		
+
+		request.setAttribute("prolist", map);
 	}
 
 	@Override
-	protected BaseBean populateBean(HttpServletRequest request) {
-		StockPurchaseBean bean = new StockPurchaseBean();
+	protected BaseBean populateBean(HttpServletRequest request) {         
 
-bean.setId(DataUtility.getLong(request.getParameter("id")));
+		PortfolioManagementBean bean = new PortfolioManagementBean();
+
+		bean.setId(DataUtility.getLong(request.getParameter("id")));
+		bean.setPortfolioName(DataUtility.getString(request.getParameter("portfolioName")));
+		bean.setInitialInvestmentAmount(DataUtility.getLong(request.getParameter("initialInvestmentAmount")));
+		bean.setRiskToleranceLevel(DataUtility.getString(request.getParameter("riskToleranceLevel")));
 		
-		bean.setQuantity(DataUtility.getLong(request.getParameter("quantity")));
-		
-		bean.setPurchasePrice(DataUtility.getDouble(request.getParameter("purchasePrice")));
-		bean.setPurchaseDate(DataUtility.getDate(request.getParameter("purchaseDate")));
-		bean.setOrderType(DataUtility.getString(request.getParameter("orderType")));
+		bean.setInvestmentStartegy(DataUtility.getString(request.getParameter("investmentStartegy")));
 
 
 		return bean;
 	}
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		System.out.println("list=====================================================");
 
 		List list = null;
 		List nextList = null;
 
 		int pageNo = 1;
 		int pageSize = DataUtility.getInt(PropertyReader.getValue("page.size"));
-		StockPurchaseBean bean = (StockPurchaseBean) populateBean(request);
+		PortfolioManagementBean bean = (PortfolioManagementBean) populateBean(request);
 		String op = DataUtility.getString(request.getParameter("operation"));
-	//	System.out.println(">>>>>>>>>>>>>>>helooo" + bean.getAppointmentDate());
+		//System.out.println(">>>>>>>>>>>>>>>helooo" + bean.getDob());
 
-		StockPurchaseModel model = new StockPurchaseModel();
+		PortfolioManagementModel model = new PortfolioManagementModel();
 
 		try {
 			list = model.search(bean, pageNo, pageSize);
@@ -84,14 +87,14 @@ bean.setId(DataUtility.getLong(request.getParameter("id")));
 			ServletUtility.handleException(e, request, response);
 			return;
 		}
-
+		System.out.println("getview====================================");
 		ServletUtility.forward(getView(), request, response);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("PaymentListCtl doPost Start");
+		System.out.println("PortfolioManagementListCtl doPost Start");
 
 		List list;
 		List nextList = null;
@@ -102,21 +105,21 @@ bean.setId(DataUtility.getLong(request.getParameter("id")));
 		pageSize = (pageSize == 0) ? DataUtility.getInt(PropertyReader.getValue("page.size")) : pageSize;
 
 		String op = DataUtility.getString(request.getParameter("operation"));
-		StockPurchaseBean bean = (StockPurchaseBean) populateBean(request);
+		System.out.println(DataUtility.getString(request.getParameter("operation")) + "oppppppppppppppppppppppppppppppppppppp");
+		
+		PortfolioManagementBean bean = (PortfolioManagementBean) populateBean(request);
 
 		String[] ids = request.getParameterValues("ids");
-		StockPurchaseModel model = new StockPurchaseModel();
+		PortfolioManagementModel model = new PortfolioManagementModel();
 		
-		
-          if (OP_SEARCH.equalsIgnoreCase(op)) {
+		if (OP_SEARCH.equalsIgnoreCase(op)) {
 			
-			if(request.getParameter("quantity").equals("")&& request.getParameter("purchasePrice").equals("")
-					&& request.getParameter("purchaseDate").equals("")&& request.getParameter("orderType").equals("")) {
+			if(request.getParameter("portfolioName").equals("")&& request.getParameter("initialInvestmentAmount").equals("")
+					&& request.getParameter("riskToleranceLevel").equals("")&& request.getParameter("investmentStartegy").equals("")) {
 				ServletUtility.setErrorMessage("fill at least one field", request);
 			}
 				
 			}
-		
 
 		if (OP_SEARCH.equalsIgnoreCase(op)) {
 			pageNo = 1;
@@ -127,16 +130,16 @@ bean.setId(DataUtility.getLong(request.getParameter("id")));
 
 		} else if (OP_NEW.equalsIgnoreCase(op)) {
 
-			ServletUtility.redirect(ORSView.STOCKPURCHASE_CTL, request, response);
+			ServletUtility.redirect(ORSView.PORTFOLIOMANAGEMENT_CTL, request, response);
 			return;
 		} else if (OP_RESET.equalsIgnoreCase(op)) {
-			ServletUtility.redirect(ORSView.STOCKPURCHASE_LIST_CTL, request, response);
+			ServletUtility.redirect(ORSView.PORTFOLIOMANAGEMENT_LIST_CTL, request, response);
 			return;
 
 		} else if (OP_DELETE.equalsIgnoreCase(op)) {
 			pageNo = 1;
 			if (ids != null && ids.length > 0) {
-				StockPurchaseBean deletebean = new StockPurchaseBean();
+				PortfolioManagementBean deletebean = new PortfolioManagementBean();
 				for (String id : ids) {
 					deletebean.setId(DataUtility.getInt(id));
 					try {
@@ -147,7 +150,7 @@ bean.setId(DataUtility.getLong(request.getParameter("id")));
 						return;
 					}
 
-					ServletUtility.setSuccessMessage("StockPurchase is Deleted Successfully", request);
+					ServletUtility.setSuccessMessage("PortfolioManagement is Deleted Successfully", request);
 				}
 			} else {
 				ServletUtility.setErrorMessage("Select at least one record", request);
@@ -180,7 +183,7 @@ bean.setId(DataUtility.getLong(request.getParameter("id")));
 
 	@Override
 	protected String getView() {
-		return ORSView.STOCKPURCHASE_LIST_VIEW;
+		return ORSView.PORTFOLIOMANAGEMENT_LIST_VIEW;
 	}
 
 }
