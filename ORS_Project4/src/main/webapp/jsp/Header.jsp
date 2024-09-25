@@ -126,6 +126,13 @@
          <a href="<%=ORSView.PORTFOLIOMANAGEMENT_CTL%>">Add PortfolioManagement</b></a> |
         <a href="<%=ORSView.PORTFOLIOMANAGEMENT_LIST_CTL%>">PortfolioManagement List</b></a> |
         
+        <br>
+         <a href="<%=ORSView.PATIENT_CTL%>">Add Patient</b></a> |
+        <a href="<%=ORSView.PATIENT_LIST_CTL%>">Patient List</b></a> |
+        
+         <a href="<%=ORSView.INVENTORY_CTL%>">Add Inventory</b></a> |
+        <a href="<%=ORSView.INVENTORY_LIST_CTL%>">Add Inventory List</b></a> |
+        
         <a target="blank" href="<%=ORSView.JAVA_DOC_VIEW%>">Java Doc</b></a> |
        <%
      		}

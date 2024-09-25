@@ -10,17 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.rays.pro4.Bean.BaseBean;
-import com.rays.pro4.Bean.StockPurchaseBean;
+import com.rays.pro4.Bean.InventoryBean;
 import com.rays.pro4.Exception.ApplicationException;
 import com.rays.pro4.Exception.DuplicateRecordException;
-import com.rays.pro4.Model.StockPurchaseModel;
+import com.rays.pro4.Model.InventoryModel;
 import com.rays.pro4.Util.DataUtility;
 import com.rays.pro4.Util.DataValidator;
 import com.rays.pro4.Util.PropertyReader;
 import com.rays.pro4.Util.ServletUtility;
 
-@WebServlet(name = "StockPurchaseCtl", urlPatterns = { "/ctl/StockPurchaseCtl" })
-public class StockPurchaseCtl extends BaseCtl {
+@WebServlet(name = "InventoryCtl", urlPatterns = { "/ctl/InventoryCtl" })
+public class InventoryCtl extends BaseCtl {
 
 	@Override
 	protected boolean validate(HttpServletRequest request) {
@@ -28,41 +28,49 @@ public class StockPurchaseCtl extends BaseCtl {
 
 		boolean pass = true;
 
+		if (DataValidator.isNull(request.getParameter("supplierName"))) {
+			request.setAttribute("supplierName", PropertyReader.getValue("error.require", "supplierName"));
+			pass = false;
+		}
+		 else if (!DataValidator.isName(request.getParameter("supplierName"))) {
+				request.setAttribute("supplierName", "only letter are allowed ");
+				pass = false;
+		 }
+		
+		else if(request.getParameter("supplierName").length()<=2 || request.getParameter("supplierName").length() >=15){
+			request.setAttribute("supplierName", " supplierName bteween 5 to 15");
+			pass = false;
+		}
+		else if (DataValidator.isTooLong(request.getParameter("supplierName"), 15)) {
+			request.setAttribute("supplierName", " only 15 digit are allowed ");
+			pass = false;
+		}
+		if (DataValidator.isNull(request.getParameter("lastUpdatedDate"))) {
+			request.setAttribute("lastUpdatedDate", PropertyReader.getValue("error.require", "lastUpdatedDate"));
+			pass = false;
+		} else if (!DataValidator.isDate(request.getParameter("lastUpdatedDate"))) {
+			request.setAttribute("lastUpdatedDate", PropertyReader.getValue("error.date", "lastUpdatedDate"));
+			pass = false;
+		}
 		if (DataValidator.isNull(request.getParameter("quantity"))) {
 			request.setAttribute("quantity", PropertyReader.getValue("error.require", "quantity"));
 			pass = false;
-		} else if (!DataValidator.isInteger(request.getParameter("quantity"))) {
+		}
+
+		else if (!DataValidator.isInteger(request.getParameter("quantity"))) {
 			request.setAttribute("quantity", "quantity contain only integer value");
 			pass = false;
-		}
-		if (DataValidator.isNull(request.getParameter("purchasePrice"))) {
-			request.setAttribute("purchasePrice", PropertyReader.getValue("error.require", "purchasePrice"));
-			pass = false;
-		}
-
-		else if (!DataValidator.isDouble(request.getParameter("purchasePrice"))) {
-			request.setAttribute("purchasePrice", " purchasePrice contain only Numeric value");
-			pass = false;
 
 		}
 
-		if (DataValidator.isNull(request.getParameter("purchaseDate"))) {
-			request.setAttribute("purchaseDate", PropertyReader.getValue("error.require", "purchaseDate"));
-			pass = false;
-
-		} else if (!DataValidator.isDate(request.getParameter("purchaseDate"))) {
-			request.setAttribute("purchaseDate", PropertyReader.getValue("error.date", "purchaseDate"));
-			pass = false;
-		}
-
-		if (DataValidator.isNull(request.getParameter("orderType"))) {
-			request.setAttribute("orderType", PropertyReader.getValue("error.require", "orderType"));
+		if (DataValidator.isNull(request.getParameter("product"))) {
+			request.setAttribute("product", PropertyReader.getValue("error.require", "product"));
 			pass = false;
 		}
 
 		/*
-		 * else if (!DataValidator.isName(request.getParameter("orderType"))) {
-		 * request.setAttribute("orderType", "orderType  must contains alphabet only");
+		 * else if (!DataValidator.isName(request.getParameter("product"))) {
+		 * request.setAttribute("product", "customer  must contains alphabet only");
 		 * pass = false; }
 		 */
 		return pass;
@@ -70,26 +78,27 @@ public class StockPurchaseCtl extends BaseCtl {
 	}
 
 	protected void preload(HttpServletRequest request) {
-		StockPurchaseModel model = new StockPurchaseModel();
+		InventoryModel model = new InventoryModel();
 		Map<Integer, String> map = new HashMap();
 
-		map.put(1, "Market");
-		map.put(2, "Limit");
+		map.put(1, "Leptop");
+		map.put(2, "Mobile");
+		map.put(3, "Ac ");
+	
 
 		request.setAttribute("ilnes", map);
 	}
 
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
-		StockPurchaseBean bean = new StockPurchaseBean();
+		InventoryBean bean = new InventoryBean();
 
 		bean.setId(DataUtility.getLong(request.getParameter("id")));
-
+		
+		bean.setSupplierName(DataUtility.getString(request.getParameter("supplierName")));
+		bean.setLastUpdatedDate(DataUtility.getDate(request.getParameter("lastUpdatedDate")));
 		bean.setQuantity(DataUtility.getLong(request.getParameter("quantity")));
-
-		bean.setPurchasePrice(DataUtility.getDouble(request.getParameter("purchasePrice")));
-		bean.setPurchaseDate(DataUtility.getDate(request.getParameter("purchaseDate")));
-		bean.setOrderType(DataUtility.getString(request.getParameter("orderType")));
+		bean.setProduct(DataUtility.getString(request.getParameter("product")));
 
 		return bean;
 	}
@@ -99,7 +108,7 @@ public class StockPurchaseCtl extends BaseCtl {
 			throws ServletException, IOException {
 		String op = DataUtility.getString(request.getParameter("operation"));
 
-		StockPurchaseModel model = new StockPurchaseModel();
+		InventoryModel model = new InventoryModel();
 
 		long id = DataUtility.getLong(request.getParameter("id"));
 
@@ -108,7 +117,7 @@ public class StockPurchaseCtl extends BaseCtl {
 		if (id != 0 && id > 0) {
 
 			System.out.println("in id > 0  condition " + id);
-			StockPurchaseBean bean;
+			InventoryBean bean;
 
 			try {
 				bean = model.findByPK(id);
@@ -132,11 +141,11 @@ public class StockPurchaseCtl extends BaseCtl {
 
 		System.out.println(">>>><<<<>><<><<><<><>" + id + op);
 
-		StockPurchaseModel model = new StockPurchaseModel();
+		InventoryModel model = new InventoryModel();
 
 		if (OP_SAVE.equalsIgnoreCase(op) || OP_UPDATE.equalsIgnoreCase(op)) {
 
-			StockPurchaseBean bean = (StockPurchaseBean) populateBean(request);
+			InventoryBean bean = (InventoryBean) populateBean(request);
 
 			try {
 				if (id > 0) {
@@ -144,14 +153,15 @@ public class StockPurchaseCtl extends BaseCtl {
 					model.update(bean);
 					ServletUtility.setBean(bean, request);
 
-					ServletUtility.setSuccessMessage("StockPurchase  is successfully Updated", request);
+					ServletUtility.setSuccessMessage("Inventory  is successfully Updated", request);
 				} else {
 					System.out.println(" U ctl DoPost 33333");
 					long pk = model.add(bean);
 
-					// ServletUtility.setBean(bean, request);
-
-					ServletUtility.setSuccessMessage("StockPurchase is successfully Added", request);
+					//ServletUtility.setBean(bean, request);
+					ServletUtility.setBean(bean, request);
+					
+					ServletUtility.setSuccessMessage("Inventory is successfully Added", request);
 
 					bean.setId(pk);
 				}
@@ -166,11 +176,11 @@ public class StockPurchaseCtl extends BaseCtl {
 			}
 		} else if (OP_DELETE.equalsIgnoreCase(op)) {
 
-			StockPurchaseBean bean = (StockPurchaseBean) populateBean(request);
+			InventoryBean bean = (InventoryBean) populateBean(request);
 			try {
 				model.delete(bean);
 
-				ServletUtility.redirect(ORSView.STOCKPURCHASE_CTL, request, response);
+				ServletUtility.redirect(ORSView.INVENTORY_CTL, request, response);
 				return;
 			} catch (ApplicationException e) {
 				ServletUtility.handleException(e, request, response);
@@ -179,7 +189,7 @@ public class StockPurchaseCtl extends BaseCtl {
 		} else if (OP_CANCEL.equalsIgnoreCase(op)) {
 			System.out.println(" U  ctl Do post 77777");
 
-			ServletUtility.redirect(ORSView.STOCKPURCHASE_LIST_CTL, request, response);
+			ServletUtility.redirect(ORSView.INVENTORY_LIST_CTL, request, response);
 			return;
 		}
 		ServletUtility.forward(getView(), request, response);
@@ -188,6 +198,6 @@ public class StockPurchaseCtl extends BaseCtl {
 	@Override
 	protected String getView() {
 		// TODO Auto-generated method stub
-		return ORSView.STOCKPURCHASE_VIEW;
+		return ORSView.INVENTORY_VIEW;
 	}
 }

@@ -25,13 +25,15 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="<%=ORSView.APP_CONTEXT%>/js/utilities.js"></script>
 <script>
-	$(function() {
-		$("#Udate").datepicker({
-			changeMonth : true,
-			changeYear : true,
-			yearRange : '1980:2002',
-		//dateFormat:'yy-mm-dd'
-		});
+$( function() {
+    $( "#datepicker" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+     
+		yearRange : '1980:2002',
+		dateFormat : 'yy/mm/dd',
+	
+    });
 	});
 
 	function limitInputLength(input, maxLength) {
@@ -94,7 +96,7 @@
 				</div>
 
 				<td align="center"><label>PurchaseDate</font> :
-				</label> <input type="text" name="purchaseDate" id="Udate"
+				</label> <input type="text" name="purchaseDate" id="datepicker"
 					placeholder="Enter purchaseDate" readonly="readonly"
 					value="<%=ServletUtility.getParameter("purchaseDate", request)%>">
 					</div>

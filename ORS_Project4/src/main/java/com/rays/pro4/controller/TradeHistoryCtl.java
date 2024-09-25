@@ -36,7 +36,8 @@ public class TradeHistoryCtl extends BaseCtl {
 			 request.setAttribute("userId", "Special character is not allowed ");
 			pass = false;
 		}
-		   
+		
+		
 //		 else if (!DataValidator.isTooLong(request.getParameter("userId"), 2)) {
 //			request.setAttribute("userId", "fullName contain 100 words");
 //			pass = false;

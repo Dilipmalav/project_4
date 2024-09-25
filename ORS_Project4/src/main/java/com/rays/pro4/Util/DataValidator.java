@@ -10,6 +10,22 @@ import java.util.Date;
 public class DataValidator {
 	
 	
+	public static boolean isLetter(String val) {
+
+		String namereg = "^[^-\\s][\\p{L} .'-]+$";
+
+		if (isNotNull(val)) {
+			try {
+				return val.matches(namereg);
+			} catch (NumberFormatException e) {
+				return false;
+			}
+
+		} else {
+			return false;
+		}
+	}
+	
 	 public static boolean validateAlphanumeric(String input) {
 	        // Check for empty input
 	        if (input == null || input.isEmpty()) {
@@ -48,6 +64,20 @@ public class DataValidator {
 			return false;
 		}
 	}
+	public static boolean isDouble(String val) {
+	    if (isNotNull(val)) {
+	        try {
+	            Double.parseDouble(val);
+	            return true;
+	        } catch (NumberFormatException e) {
+	            return false;
+	        }
+	    } else {
+	        return false;
+	    }
+	}
+
+	
 	public static boolean isLong(String val){
 		if(isNotNull(val)){
 			try{
@@ -80,12 +110,18 @@ public class DataValidator {
 
 	
 	public static boolean isDate(String val){
-		Date d=null;
-		if(isNotNull(val)){
-			d=DataUtility.getDate(val);
-		}
-		return d!=null;
-	}
+	    
+    	Date today = new Date();
+    	Date enterDate = DataUtility.getDate(val);
+    	
+    	int age = today.getYear() - enterDate.getYear();
+
+    	if(age > 18 && isNotNull(val)){
+    		return true;
+    	}else{
+    		return false;							
+    	}
+    }
 	public static boolean isName(String val) {
 
 		String namereg = "^[^-\\s][\\p{L} .'-]+$";
@@ -102,6 +138,8 @@ public class DataValidator {
 		}
 			return false;
 		}
+	   
+	   
 		public static boolean isTooLong(String val1, int maxLength) {
 		    if (isNotNull(val1)) {
 		        return val1.length() >  maxLength;
@@ -110,6 +148,9 @@ public class DataValidator {
 		    }
 		
 	}
+		
+
+
 	
 	public static boolean isPassword(String val) {
 

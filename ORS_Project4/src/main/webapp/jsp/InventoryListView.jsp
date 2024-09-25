@@ -1,7 +1,7 @@
 <%@page import="java.util.Map"%>
-<%@page import="com.rays.pro4.controller.ClientListCtl"%>
+<%@page import="com.rays.pro4.controller.InventoryListCtl"%>
 <%@page import="com.rays.pro4.Util.HTMLUtility"%>
-<%@page import="com.rays.pro4.Bean.ClientBean"%>
+<%@page import="com.rays.pro4.Bean.InventoryBean"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.List"%>
 <%@page import="com.rays.pro4.Util.DataUtility"%>
@@ -13,7 +13,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Client page</title>
+<title>Inventory page</title>
 <script src="<%=ORSView.APP_CONTEXT%>/js/jquery.min.js"></script>
 <script src="<%=ORSView.APP_CONTEXT%>/js/Checkbox11.js"></script>
 
@@ -25,15 +25,17 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="<%=ORSView.APP_CONTEXT%>/js/utilities.js"></script>
 <script>
-	$(function() {
-		$("#Udate").datepicker({
-			changeMonth : true,
-			changeYear : true,
-			yearRange : '1980:2002',
-		//dateFormat:'yy-mm-dd'
-		});
-	});
 
+$( function() {
+    $( "#datepicker" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+     
+		yearRange : '1980:2002',
+		dateFormat : 'yy/mm/dd',
+	
+    });
+	});
 	function limitInputLength(input, maxLength) {
 		if (input.value.length > maxLength) {
 			input.value = input.value.slice(0, maxLength);
@@ -41,14 +43,14 @@
 	}
 </script>
 <body>
-	<jsp:useBean id="bean" class="com.rays.pro4.Bean.ClientBean"
+	<jsp:useBean id="bean" class="com.rays.pro4.Bean.InventoryBean"
 		scope="request"></jsp:useBean>
 	<%@include file="Header.jsp"%>
-	<form action="<%=ORSView.CLIENT_LIST_CTL%>" method="post">
+	<form action="<%=ORSView.INVENTORY_LIST_CTL%>" method="post">
 		<center>
 
 			<div align="center">
-				<h1>Client List</h1>
+				<h1>Inventory List</h1>
 				<h3>
 					<font color="red"><%=ServletUtility.getErrorMessage(request)%></font>
 					<font color="green"><%=ServletUtility.getSuccessMessage(request)%></font>
@@ -67,49 +69,49 @@
 				int index = ((pageNo - 1) * pageSize) + 1;
 
 				List list = ServletUtility.getList(request);
-				Iterator<ClientBean> it = list.iterator();
+				Iterator<InventoryBean> it = list.iterator();
 				if (list.size() != 0) {
 			%>
 			<table width="100%" align="center">
 				<div>
 
-					<td align="center"><label>FullName</font> :
-					</label> <input type="text" name="fullName"
-						placeholder="Enter fullName"
-						oninput="handleLetterInput(this,'fullNameError', 50)"
-						onblur="validateLetterInput(this,'fullNameError', 50)"
-						value="<%=ServletUtility.getParameter("fullName", request)%>">
-						<br> <font color="red" id="fullNameError"> <%=ServletUtility.getErrorMessage("fullName", request)%></font>
+					<td align="center"><label>SupplierName</font> :
+					</label> <input type="text" name="supplierName"
+						placeholder="Enter supplierName"
+						oninput="handleLetterInput(this,'supplierNameError', 50)"
+						onblur="validateLetterInput(this,'supplierNameError', 50)"
+						value="<%=ServletUtility.getParameter("name", request)%>">
+						<br> <font color="red" id="supplierNameError"> <%=ServletUtility.getErrorMessage("supplierName", request)%></font>
 
 					</td>
 				</div>
 
-				<td align="center"><label>AppointmentDate</font> :
-				</label> <input type="text" name="appointmentDate" id="Udate"
-					placeholder="Enter appointmentDate" readonly="readonly"
-					value="<%=ServletUtility.getParameter("appointmentDate", request)%>">
+				<td align="center"><label>LastUpdatedDate</font> :
+				</label> <input type="text" name="lastUpdatedDate" id="datepicker"
+					placeholder="Enter lastUpdatedDate" readonly="readonly"
+					value="<%=ServletUtility.getParameter("lastUpdatedDate", request)%>">
 					<div>
 
-						<td align="center"><label>Phone</font>:
-						</label><input type="text" name="phone" id="phoneInput"
-							placeholder="Enter phone"
-							oninput="handleIntegerInput(this, 'phoneError', 10)"
-							onblur="validateIntegerInput(this, 'phoneError', 10)"
-							value="<%=ServletUtility.getParameter("phone", request)%>">
-							<br> <font color="red" id="phoneError"> <%=ServletUtility.getErrorMessage("phone", request)%></font>
+						<td align="center"><label>Quantity</font>:
+						</label><input type="text" name="quantity" id="quantityInput"
+							placeholder="Enter quantity"
+							oninput="handleIntegerInput(this, 'quantityError', 10)"
+							onblur="validateIntegerInput(this, 'quantityError', 10)"
+							value="<%=ServletUtility.getParameter("mobile", request)%>">
+							<br> <font color="red" id="quantityError"> <%=ServletUtility.getErrorMessage("quantity", request)%></font>
 						</td>
 
 					</div>
 
 
 					<div>
-						<td><label>Illness</font> :
-						</label> <%=HTMLUtility.getList2("illness", String.valueOf(bean.getIllness()), map)%></td>
+						<td><label>Product</font> :
+						</label> <%=HTMLUtility.getList2("product", String.valueOf(bean.getProduct()), map)%></td>
 
 					</div>
 				<td><input type="submit" name="operation"
-					value="<%=ClientListCtl.OP_SEARCH%>"> <input type="submit"
-					name="operation" value="<%=ClientListCtl.OP_RESET%>"></td>
+					value="<%=InventoryListCtl.OP_SEARCH%>"> <input type="submit"
+					name="operation" value="<%=InventoryListCtl.OP_RESET%>"></td>
 
 
 			</table>
@@ -124,10 +126,10 @@
 						All</th>
 
 					<th>S.No.</th>
-					<th>FullName </th>
-					<th>AppointmentDate </th>
-					<th>Phone</th>
-					<th>Illness</th>
+					<th>SupplierName </th>
+					<th>LastUpdatedDate </th>
+					<th>Quantity</th>
+					<th>Product</th>
 					<th>Edit</th>
 				</tr>
 				<%
@@ -139,11 +141,11 @@
 						value="<%=bean.getId()%>"></td>
 
 					<td><%=index++%></td>
-					<td><%=bean.getFullName()%></td>
-					<td><%=DataUtility.getDateString(bean.getAppointmentDate())%></td>
-					<td><%=bean.getPhone()%></td>
-					<td><%=map.get(Integer.parseInt(bean.getIllness()))%></td>
-					<td><a href="ClientCtl?id=<%=bean.getId()%>">Edit</td>
+					<td><%=bean.getSupplierName()%></td>
+					<td><%=DataUtility.getDateString(bean.getLastUpdatedDate())%></td>
+					<td><%=bean.getQuantity()%></td>
+					<td><%=map.get(Integer.parseInt(bean.getProduct()))%></td>
+					<td><a href="InventoryCtl?id=<%=bean.getId()%>">Edit</td>
 				</tr>
 				<%
 					}
@@ -157,23 +159,23 @@
 							if (pageNo == 1) {
 						%>
 						<td><input type="submit" name="operation" disabled="disabled"
-							value="<%=ClientListCtl.OP_PREVIOUS%>"></td>
+							value="<%=InventoryListCtl.OP_PREVIOUS%>"></td>
 						<%
 							} else {
 						%>
 						<td><input type="submit" name="operation"
-							value="<%=ClientListCtl.OP_PREVIOUS%>"></td>
+							value="<%=InventoryListCtl.OP_PREVIOUS%>"></td>
 						<%
 							}
 						%>
 
 						<td><input type="submit" name="operation"
-							value="<%=ClientListCtl.OP_DELETE%>"></td>
+							value="<%=InventoryListCtl.OP_DELETE%>"></td>
 						<td align="center"><input type="submit" name="operation"
-							value="<%=ClientListCtl.OP_NEW%>"></td>
+							value="<%=InventoryListCtl.OP_NEW%>"></td>
 
 						<td align="right"><input type="submit" name="operation"
-							value="<%=ClientListCtl.OP_NEXT%>"
+							value="<%=InventoryListCtl.OP_NEXT%>"
 							<%=(list.size() < pageSize || next == 0) ? "disabled" : ""%>></td>
 
 
@@ -185,7 +187,7 @@
 					if (list.size() == 0) {
 				%>
 				<td align="center"><input type="submit" name="operation"
-					value="<%=ClientListCtl.OP_BACK%>"></td>
+					value="<%=InventoryListCtl.OP_BACK%>"></td>
 
 
 				<%

@@ -42,7 +42,7 @@ public class CustomerCtl extends BaseCtl {
 			pass = false;
 
 		} else if (!DataValidator.isName(request.getParameter("location"))) {
-			request.setAttribute("location", "location contain alphabate only");
+			request.setAttribute("location", "location contain alphabate & Intager value only");
 			pass = false;
 		}
 		if (DataValidator.isNull(request.getParameter("contactNumber"))) {

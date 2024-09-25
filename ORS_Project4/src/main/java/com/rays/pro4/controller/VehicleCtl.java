@@ -1,4 +1,4 @@
- package com.rays.pro4.controller;
+package com.rays.pro4.controller;
 
 import java.io.IOException;
 import java.util.HashMap;

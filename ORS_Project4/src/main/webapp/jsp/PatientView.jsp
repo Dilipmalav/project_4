@@ -1,5 +1,5 @@
 <%@page import="java.util.Map"%>
-<%@page import="com.rays.pro4.controller.StockPurchaseCtl"%>
+<%@page import="com.rays.pro4.controller.PatientCtl"%>
 <%@page import="com.rays.pro4.Util.HTMLUtility"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="com.rays.pro4.Util.DataUtility"%>
@@ -11,7 +11,7 @@
 <head>
 <link rel="icon" type="image/png"
 	href="<%=ORSView.APP_CONTEXT%>/img/logo.png" sizes="16*16" />
-<title>StockPurchase Page</title>
+<title>Patient Page</title>
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,7 +28,7 @@ $( function() {
       changeYear: true,
      
 		yearRange : '1980:2002',
-		dateFormat : 'yy/mm/dd',
+		
 	
     });
 	});
@@ -39,13 +39,13 @@ $( function() {
 	}
 </script>
 <body>
-	<jsp:useBean id="bean" class="com.rays.pro4.Bean.StockPurchaseBean"
+	<jsp:useBean id="bean" class="com.rays.pro4.Bean.PatientBean"
 		scope="request"></jsp:useBean>
 	<%@ include file="Header.jsp"%>
 
 	<center>
 
-		<form action="<%=ORSView.STOCKPURCHASE_CTL%>" method="post">
+		<form action="<%=ORSView.PATIENT_CTL%>" method="post">
 
 			<div align="center">
 				<h1>
@@ -54,13 +54,13 @@ $( function() {
 						if (bean != null && bean.getId() > 0) {
 					%>
 					<tr>
-						<th><font size="5px"> Update StockPurchase </font></th>
+						<th><font size="5px"> Update Patient </font></th>
 					</tr>
 					<%
 						} else {
 					%>
 					<tr>
-						<th><font size="5px"> Add StockPurchase </font></th>
+						<th><font size="5px"> Add Patient </font></th>
 					</tr>
 					<%
 						}
@@ -81,55 +81,55 @@ $( function() {
 
 			<table>
 				<tr>
-					<th align="left">Quantity <span style="color: red">*</span> :
+					<th align="left">Name <span style="color: red">*</span> :
 					</th>
 
-					<td><input type="text" name="quantity"
-						placeholder="Enter quantity " size="25"
-						  oninput="handleIntegerInput(this, 'quantityError', 20)"
-						onblur="validateIntegerInput(this, 'quantityError', 20)"
-						value="<%=DataUtility.getStringData(bean.getQuantity()).equals("0") ? ""
-						: DataUtility.getStringData(bean.getQuantity())%>">
-						<font color="red" id="quantityError"> <%=ServletUtility.getErrorMessage("quantity", request)%></td>
+					<td><input type="text" name="name"
+						placeholder="Enter name " size="25"
+						oninput="handleLetterInput(this, 'nameError', 20)"
+						onblur="validateLetterInput(this, 'nameError', 20)"
+						value="<%=DataUtility.getStringData(bean.getName())%>">
+						<font color="red" id="nameError"> <%=ServletUtility.getErrorMessage("name", request)%></td>
 				</tr>
+
 				<tr>
 					<th style="padding: 1px"></th>
 				</tr>
 				<tr>
-					<th align="left">PurchasePrice <span style="color: red">*</span> :
-					</th>
-
-					<td><input type="text" name="purchasePrice"
-						placeholder="Enter purchasePrice" size="25"
-						oninput="handleDoubleInput(this, 'purchasePriceError', 20)"
-						onblur="validateIntegerInput(this, 'purchasePriceError', 20)"
-							value="<%=DataUtility.getDoublee(bean.getPurchasePrice())%>">
-						<font color="red"  id="purchasePriceError"> <%=ServletUtility.getErrorMessage("purchasePrice", request)%></td>
-				</tr>
-				
-				<tr>
-					<th style="padding: 1px"></th>
-				</tr>
-				<tr>
-					<th align="left">PurchaseDate <span style="color: red">*</span>
+					<th align="left">DateOfVisit <span style="color: red">*</span>
 						:
 					</th>
-					<td><input type="text" name="purchaseDate"
-						placeholder="Enter purchaseDate  " size="25" id="datepicker"
+					<td><input type="text" name="dateOfVisit"
+						placeholder="Enter dateOfVisit"dateOfVisit"  " size="25" id="datepicker"
 						readonly="readonly"
-						value="<%=DataUtility.getDateString(bean.getPurchaseDate())%>">
-						<font color="red"> <%=ServletUtility.getErrorMessage("purchaseDate", request)%></font></td>
+						value="<%=DataUtility.getDateString(bean.getDateOfVisit())%>">
+						<font color="red"> <%=ServletUtility.getErrorMessage("dateOfVisit", request)%></font></td>
+				</tr>
+				<tr>
+					<th style="padding: 1px"></th>
+				</tr>
+				<tr>
+					<th align="left">Mobile <span style="color: red">*</span> :
+					</th>
+
+					<td><input type="text" name="mobile"
+						placeholder="Enter mobile" size="25"
+						oninput="handleMobileNumberInput(this, 'mobileError', 10)"
+						onblur="validateIntegerInput(this, 'mobileError', 10)"
+							value="<%=DataUtility.getStringData(bean.getMobile()).equals("0") ? ""
+					: DataUtility.getStringData(bean.getMobile())%>">
+						<font color="red" id="mobileError"> <%=ServletUtility.getErrorMessage("mobile", request)%></td>
 				</tr>
 
 				<th style="padding: 1px"></th>
 				</tr>
 
 				<tr>
-					<th align="left">OrderType <span style="color: red">*</span> :
+					<th align="left">Decease <span style="color: red">*</span> :
 					</th>
-					<td><%=HTMLUtility.getList2("orderType", String.valueOf(bean.getOrderType()), map)%>
+					<td><%=HTMLUtility.getList2("decease", String.valueOf(bean.getDecease()), map)%>
 
-						<font color="red"> <%=ServletUtility.getErrorMessage("orderType", request)%></font></br>
+						<font color="red"> <%=ServletUtility.getErrorMessage("decease", request)%></font></br>
 
 					</td>
 				</tr>
@@ -144,18 +144,18 @@ $( function() {
 						if (bean.getId() > 0) {
 					%>
 					<td colspan="2">&nbsp; &emsp; <input type="submit"
-						name="operation" value="<%=StockPurchaseCtl.OP_UPDATE%>"> &nbsp;
+						name="operation" value="<%=PatientCtl.OP_UPDATE%>"> &nbsp;
 						&nbsp; <input type="submit" name="operation"
-						value="<%=StockPurchaseCtl.OP_CANCEL%>"></td>
+						value="<%=PatientCtl.OP_CANCEL%>"></td>
 
 					<%
 						} else {
 					%>
 
 					<td colspan="2">&nbsp; &emsp; <input type="submit"
-						name="operation" value="<%=StockPurchaseCtl.OP_SAVE%>"> &nbsp;
+						name="operation" value="<%=PatientCtl.OP_SAVE%>"> &nbsp;
 						&nbsp; <input type="submit" name="operation"
-						value="<%=StockPurchaseCtl.OP_RESET%>"></td>
+						value="<%=PatientCtl.OP_RESET%>"></td>
 
 					<%
 						}

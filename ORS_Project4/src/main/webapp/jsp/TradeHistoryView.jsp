@@ -27,6 +27,7 @@
 			changeMonth : true,
 			changeYear : true,
 			yearRange : '1980:2002',
+			dateformate : 'yy/mm/dd'
 		});
 	});
 
@@ -35,6 +36,7 @@
 			changeMonth : true,
 			changeYear : true,
 			yearRange : '1980:2002',
+			dateformate : 'yy/mm/dd'
 		});
 	});
 	function limitInputLength(input, maxLength) {
@@ -43,6 +45,8 @@
 		}
 	}
 </script>
+
+
 <body>
 	<jsp:useBean id="bean" class="com.rays.pro4.Bean.TradeHistoryBean"
 		scope="request"></jsp:useBean>
@@ -90,7 +94,7 @@
 					</th>
 
 					<td><input type="text" name="userId"
-						placeholder="Enter userId " size="25"
+						placeholder="Enter userId " size="25" maxlength="18"
 						value="<%=DataUtility.getStringData(bean.getUserId())%>">
 						<font color="red" id="userIdError"> <%=ServletUtility.getErrorMessage("userId", request)%></td>
 				</tr>

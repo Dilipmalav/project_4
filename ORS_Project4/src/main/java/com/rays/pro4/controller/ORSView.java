@@ -46,7 +46,12 @@ public interface ORSView {
 	
 	public String PORTFOLIOMANAGEMENT_LIST_VIEW = PAGE_FOLDER + "/PortfolioManagementListView.jsp";
 	public String PORTFOLIOMANAGEMENT_VIEW = PAGE_FOLDER + "/PortfolioManagementView.jsp";
-
+  
+	public String PATIENT_LIST_VIEW = PAGE_FOLDER + "/PatientListView.jsp";
+	public String PATIENT_VIEW = PAGE_FOLDER + "/PatientView.jsp";
+	
+	public String INVENTORY_LIST_VIEW = PAGE_FOLDER + "/InventoryListView.jsp";
+	public String INVENTORY_VIEW = PAGE_FOLDER + "/InventoryView.jsp";
 
 	public String MARKSHEET_VIEW = PAGE_FOLDER + "/MarksheetView.jsp";
 	public String MARKSHEET_LIST_VIEW = PAGE_FOLDER + "/MarksheetListView.jsp";
@@ -113,7 +118,12 @@ public interface ORSView {
 	public String PORTFOLIOMANAGEMENT_CTL = APP_CONTEXT + "/ctl/PortfolioManagementCtl";
 	public String PORTFOLIOMANAGEMENT_LIST_CTL = APP_CONTEXT + "/ctl/PortfolioManagementListCtl";
 
-
+	public String PATIENT_LIST_CTL = APP_CONTEXT + "/ctl/PatientListCtl";
+	public String PATIENT_CTL = APP_CONTEXT + "/ctl/PatientCtl"; 
+	
+	public String INVENTORY_LIST_CTL = APP_CONTEXT + "/ctl/InventoryListCtl";
+	public String INVENTORY_CTL = APP_CONTEXT + "/ctl/InventoryCtl"; 
+	
 	public String MARKSHEET_CTL = APP_CONTEXT + "/ctl/MarksheetCtl";
 	public String MARKSHEET_LIST_CTL = APP_CONTEXT + "/ctl/MarksheetListCtl";
 	public String USER_CTL = APP_CONTEXT + "/ctl/UserCtl";

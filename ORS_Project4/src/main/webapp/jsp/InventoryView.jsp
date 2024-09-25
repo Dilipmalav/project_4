@@ -1,5 +1,5 @@
 <%@page import="java.util.Map"%>
-<%@page import="com.rays.pro4.controller.StockPurchaseCtl"%>
+<%@page import="com.rays.pro4.controller.InventoryCtl"%>
 <%@page import="com.rays.pro4.Util.HTMLUtility"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="com.rays.pro4.Util.DataUtility"%>
@@ -11,7 +11,7 @@
 <head>
 <link rel="icon" type="image/png"
 	href="<%=ORSView.APP_CONTEXT%>/img/logo.png" sizes="16*16" />
-<title>StockPurchase Page</title>
+<title>Inventory Page</title>
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,6 +22,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="<%=ORSView.APP_CONTEXT%>/js/utilities.js"></script>
 <script>
+
 $( function() {
     $( "#datepicker" ).datepicker({
       changeMonth: true,
@@ -31,21 +32,22 @@ $( function() {
 		dateFormat : 'yy/mm/dd',
 	
     });
-	});
-	function limitInputLength(input, maxLength) {
+	});	
+
+    function limitInputLength(input, maxLength) {
 		if (input.value.length > maxLength) {
 			input.value = input.value.slice(0, maxLength);
 		}
 	}
 </script>
 <body>
-	<jsp:useBean id="bean" class="com.rays.pro4.Bean.StockPurchaseBean"
+	<jsp:useBean id="bean" class="com.rays.pro4.Bean.InventoryBean"
 		scope="request"></jsp:useBean>
 	<%@ include file="Header.jsp"%>
 
 	<center>
 
-		<form action="<%=ORSView.STOCKPURCHASE_CTL%>" method="post">
+		<form action="<%=ORSView.INVENTORY_CTL%>" method="post">
 
 			<div align="center">
 				<h1>
@@ -54,13 +56,13 @@ $( function() {
 						if (bean != null && bean.getId() > 0) {
 					%>
 					<tr>
-						<th><font size="5px"> Update StockPurchase </font></th>
+						<th><font size="5px"> Update Inventory </font></th>
 					</tr>
 					<%
 						} else {
 					%>
 					<tr>
-						<th><font size="5px"> Add StockPurchase </font></th>
+						<th><font size="5px"> Add Inventory </font></th>
 					</tr>
 					<%
 						}
@@ -81,55 +83,55 @@ $( function() {
 
 			<table>
 				<tr>
+					<th align="left"> SupplierName <span style="color: red">*</span> :
+					</th>
+
+					<td><input type="text" name="supplierName"
+						placeholder="Enter supplierName " size="25"
+						oninput="handleLetterInput(this, 'supplierNameError', 20)"
+						onblur="validateLetterInput(this, 'supplierNameError', 20)"
+						value="<%=DataUtility.getStringData(bean.getSupplierName())%>">
+						<font color="red" id="supplierNameError"> <%=ServletUtility.getErrorMessage("supplierName", request)%></td>
+				</tr>
+
+				<tr>
+					<th style="padding: 1px"></th>
+				</tr>
+				<tr>
+					<th align="left">LastUpdatedDate <span style="color: red">*</span>
+						:
+					</th>
+					<td><input type="text" name="lastUpdatedDate"
+						placeholder="Enter lastUpdatedDate"dateOfVisit"  " size="25" id="datepicker"
+						readonly="readonly"
+						value="<%=DataUtility.getDateString(bean.getLastUpdatedDate())%>">
+						<font color="red"> <%=ServletUtility.getErrorMessage("lastUpdatedDate", request)%></font></td>
+				</tr>
+				<tr>
+					<th style="padding: 1px"></th>
+				</tr>
+				<tr>
 					<th align="left">Quantity <span style="color: red">*</span> :
 					</th>
 
 					<td><input type="text" name="quantity"
-						placeholder="Enter quantity " size="25"
-						  oninput="handleIntegerInput(this, 'quantityError', 20)"
-						onblur="validateIntegerInput(this, 'quantityError', 20)"
-						value="<%=DataUtility.getStringData(bean.getQuantity()).equals("0") ? ""
-						: DataUtility.getStringData(bean.getQuantity())%>">
+						placeholder="Enter quantity" size="25"
+						oninput=" handleIntegerInput(this, 'quantityError', 10)"
+						onblur="validateIntegerInput(this, 'quantityError', 10)"
+							value="<%=DataUtility.getStringData(bean.getQuantity()).equals("0") ? ""
+					: DataUtility.getStringData(bean.getQuantity())%>">
 						<font color="red" id="quantityError"> <%=ServletUtility.getErrorMessage("quantity", request)%></td>
-				</tr>
-				<tr>
-					<th style="padding: 1px"></th>
-				</tr>
-				<tr>
-					<th align="left">PurchasePrice <span style="color: red">*</span> :
-					</th>
-
-					<td><input type="text" name="purchasePrice"
-						placeholder="Enter purchasePrice" size="25"
-						oninput="handleDoubleInput(this, 'purchasePriceError', 20)"
-						onblur="validateIntegerInput(this, 'purchasePriceError', 20)"
-							value="<%=DataUtility.getDoublee(bean.getPurchasePrice())%>">
-						<font color="red"  id="purchasePriceError"> <%=ServletUtility.getErrorMessage("purchasePrice", request)%></td>
-				</tr>
-				
-				<tr>
-					<th style="padding: 1px"></th>
-				</tr>
-				<tr>
-					<th align="left">PurchaseDate <span style="color: red">*</span>
-						:
-					</th>
-					<td><input type="text" name="purchaseDate"
-						placeholder="Enter purchaseDate  " size="25" id="datepicker"
-						readonly="readonly"
-						value="<%=DataUtility.getDateString(bean.getPurchaseDate())%>">
-						<font color="red"> <%=ServletUtility.getErrorMessage("purchaseDate", request)%></font></td>
 				</tr>
 
 				<th style="padding: 1px"></th>
 				</tr>
 
 				<tr>
-					<th align="left">OrderType <span style="color: red">*</span> :
+					<th align="left">Product <span style="color: red">*</span> :
 					</th>
-					<td><%=HTMLUtility.getList2("orderType", String.valueOf(bean.getOrderType()), map)%>
+					<td><%=HTMLUtility.getList2("product", String.valueOf(bean.getProduct()), map)%>
 
-						<font color="red"> <%=ServletUtility.getErrorMessage("orderType", request)%></font></br>
+						<font color="red"> <%=ServletUtility.getErrorMessage("product", request)%></font></br>
 
 					</td>
 				</tr>
@@ -144,18 +146,18 @@ $( function() {
 						if (bean.getId() > 0) {
 					%>
 					<td colspan="2">&nbsp; &emsp; <input type="submit"
-						name="operation" value="<%=StockPurchaseCtl.OP_UPDATE%>"> &nbsp;
+						name="operation" value="<%=InventoryCtl.OP_UPDATE%>"> &nbsp;
 						&nbsp; <input type="submit" name="operation"
-						value="<%=StockPurchaseCtl.OP_CANCEL%>"></td>
+						value="<%=InventoryCtl.OP_CANCEL%>"></td>
 
 					<%
 						} else {
 					%>
 
 					<td colspan="2">&nbsp; &emsp; <input type="submit"
-						name="operation" value="<%=StockPurchaseCtl.OP_SAVE%>"> &nbsp;
+						name="operation" value="<%=InventoryCtl.OP_SAVE%>"> &nbsp;
 						&nbsp; <input type="submit" name="operation"
-						value="<%=StockPurchaseCtl.OP_RESET%>"></td>
+						value="<%=InventoryCtl.OP_RESET%>"></td>
 
 					<%
 						}

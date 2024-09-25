@@ -37,6 +37,11 @@ public class PortfolioManagementCtl extends BaseCtl {
 
 			pass = false;
 		}
+		 else if (request.getParameter("portfolioName").length()<=3 || request.getParameter("portfolioName").length()>=30) {
+			request.setAttribute("portfolioName", "portfolioName contain alphabate between 3 to 30");
+
+			pass = false;
+		}
 		
 		if (DataValidator.isNull(request.getParameter("initialInvestmentAmount"))) {
 			request.setAttribute("initialInvestmentAmount", PropertyReader.getValue("error.require", "initialInvestmentAmount"));
@@ -51,8 +56,18 @@ public class PortfolioManagementCtl extends BaseCtl {
 
 			request.setAttribute("investmentStartegy", PropertyReader.getValue("error.require", "investmentStartegy"));
 			pass = false;
+         } 
+		else if (!DataValidator.isName(request.getParameter("investmentStartegy"))) {
+			request.setAttribute("investmentStartegy", "investmentStartegy contain alphabate only");
 
-		} 
+			pass = false;
+		}
+		else if (request.getParameter("investmentStartegy").length()<=10 || request.getParameter("investmentStartegy").length()>=200) {
+			request.setAttribute("investmentStartegy", "investmentStartegy contain alphabate between 10 to 200");
+
+			pass = false;
+		}
+		
 		if (DataValidator.isNull(request.getParameter("riskToleranceLevel"))) {
 			request.setAttribute("riskToleranceLevel", PropertyReader.getValue("error.require", "riskToleranceLevel"));
 			pass = false;

@@ -22,12 +22,15 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="<%=ORSView.APP_CONTEXT%>/js/utilities.js"></script>
 <script>
-	$(function() {
-		$("#udatee").datepicker({
-			changeMonth : true,
-			changeYear : true,
-			yearRange : '1980:2002',
-		});
+$( function() {
+    $( "#datepicker" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+     
+		yearRange : '1980:2025',
+		dateFormat : 'yy/mm/dd',
+	
+    });
 	});
 	function limitInputLength(input, maxLength) {
 		if (input.value.length > maxLength) {
@@ -97,7 +100,7 @@
 						:
 					</th>
 					<td><input type="text" name="appointmentDate"
-						placeholder="Enter appointmentDate  " size="25" id="udatee"
+						placeholder="Enter appointmentDate  " size="25" id="datepicker"
 						readonly="readonly"
 						value="<%=DataUtility.getDateString(bean.getAppointmentDate())%>">
 						<font color="red"> <%=ServletUtility.getErrorMessage("appointmentDate", request)%></font></td>

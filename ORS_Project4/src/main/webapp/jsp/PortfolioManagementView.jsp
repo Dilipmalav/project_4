@@ -84,8 +84,8 @@
 					</th>
 					<td><input type="text" name="portfolioName"
 						placeholder="Enter portfolioName" size="25"
-						oninput="handleLetterInput(this, 'portfolioNameError', 20)"
-						onblur="validateLetterInput(this,'portfolioNameError', 20)"
+						oninput="handleLetterInput(this, 'portfolioNameError', 35)"
+						onblur="validateLetterInput(this,'portfolioNameError', 35)"
 						value="<%=DataUtility.getStringData(bean.getPortfolioName())%>">
 						<font color="red"id="portfolioNameError"> <%=ServletUtility.getErrorMessage("portfolioName", request)%></font>
 					</td>
