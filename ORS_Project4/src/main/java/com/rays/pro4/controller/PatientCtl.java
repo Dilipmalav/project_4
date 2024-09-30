@@ -31,15 +31,19 @@ public class PatientCtl extends BaseCtl {
 		if (DataValidator.isNull(request.getParameter("name"))) {
 			request.setAttribute("name", PropertyReader.getValue("error.require", "name"));
 			pass = false;
-		}
-		 else if (!DataValidator.isTooLong(request.getParameter("name"), 20)) {
-			request.setAttribute("name", "name contain 20 words");
+		} else if (!DataValidator.isName(request.getParameter("name"))) {
+			request.setAttribute("name", "only letter are allowed ");
+			pass = false;
+		} else if (!DataValidator.isTooLong(request.getParameter("name"), 15)) {
+			request.setAttribute("name", "name contain 15 words");
 			pass = false;
 		}
-		else if(request.getParameter("name").length()<=5 || request.getParameter("name").length() >=15){
+
+		else if (request.getParameter("name").length() <= 5 || request.getParameter("name").length() >= 15) {
 			request.setAttribute("name", " name bteween 5 to 15");
 			pass = false;
 		}
+
 		if (DataValidator.isNull(request.getParameter("dateOfVisit"))) {
 			request.setAttribute("dateOfVisit", PropertyReader.getValue("error.require", "dateOfVisit"));
 			pass = false;
@@ -79,7 +83,6 @@ public class PatientCtl extends BaseCtl {
 		map.put(1, "Cancer");
 		map.put(2, "Malaria");
 		map.put(3, "Diabetes ");
-	
 
 		request.setAttribute("ilnes", map);
 	}
@@ -89,7 +92,7 @@ public class PatientCtl extends BaseCtl {
 		PatientBean bean = new PatientBean();
 
 		bean.setId(DataUtility.getLong(request.getParameter("id")));
-		
+
 		bean.setName(DataUtility.getString(request.getParameter("name")));
 		bean.setDateOfVisit(DataUtility.getDate(request.getParameter("dateOfVisit")));
 		bean.setMobile(DataUtility.getLong(request.getParameter("mobile")));
@@ -153,11 +156,11 @@ public class PatientCtl extends BaseCtl {
 					System.out.println(" U ctl DoPost 33333");
 					long pk = model.add(bean);
 
-					//ServletUtility.setBean(bean, request);
+					ServletUtility.setBean(bean, request);
 
 					ServletUtility.setSuccessMessage("Patient is successfully Added", request);
 
-					bean.setId(pk);
+					// bean.setId(pk);
 				}
 
 			} catch (ApplicationException e) {

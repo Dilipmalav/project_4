@@ -52,6 +52,9 @@ public interface ORSView {
 	
 	public String INVENTORY_LIST_VIEW = PAGE_FOLDER + "/InventoryListView.jsp";
 	public String INVENTORY_VIEW = PAGE_FOLDER + "/InventoryView.jsp";
+	
+	public String ITEMINFORMATION_VIEW = PAGE_FOLDER + "/ItemInformationView.jsp";
+    public String ITEMINFORMATION_LIST_VIEW = PAGE_FOLDER + "/ItemInformationListView.jsp";
 
 	public String MARKSHEET_VIEW = PAGE_FOLDER + "/MarksheetView.jsp";
 	public String MARKSHEET_LIST_VIEW = PAGE_FOLDER + "/MarksheetListView.jsp";
@@ -123,6 +126,9 @@ public interface ORSView {
 	
 	public String INVENTORY_LIST_CTL = APP_CONTEXT + "/ctl/InventoryListCtl";
 	public String INVENTORY_CTL = APP_CONTEXT + "/ctl/InventoryCtl"; 
+	
+	 public String ITEMINFORMATION_CTL = APP_CONTEXT + "/ctl/ItemInformationCtl";
+	 public String ITEMINFORMATION_LIST_CTL = APP_CONTEXT + "/ctl/ItemInformationListCtl";
 	
 	public String MARKSHEET_CTL = APP_CONTEXT + "/ctl/MarksheetCtl";
 	public String MARKSHEET_LIST_CTL = APP_CONTEXT + "/ctl/MarksheetListCtl";

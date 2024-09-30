@@ -31,16 +31,16 @@ public class InventoryCtl extends BaseCtl {
 		if (DataValidator.isNull(request.getParameter("supplierName"))) {
 			request.setAttribute("supplierName", PropertyReader.getValue("error.require", "supplierName"));
 			pass = false;
-		}
-		 else if (!DataValidator.isName(request.getParameter("supplierName"))) {
-				request.setAttribute("supplierName", "only letter are allowed ");
-				pass = false;
-		 }
-		
-		else if(request.getParameter("supplierName").length()<=2 || request.getParameter("supplierName").length() >=15){
-			request.setAttribute("supplierName", " supplierName bteween 5 to 15");
+		} else if (!DataValidator.isName(request.getParameter("supplierName"))) {
+			request.setAttribute("supplierName", "only letter are allowed ");
 			pass = false;
 		}
+
+		else if (request.getParameter("supplierName").length() <= 2|| request.getParameter("supplierName").length() >= 15) {
+			request.setAttribute("supplierName", " supplierName bteween 2 to 15");
+			pass = false;
+		}
+
 		else if (DataValidator.isTooLong(request.getParameter("supplierName"), 15)) {
 			request.setAttribute("supplierName", " only 15 digit are allowed ");
 			pass = false;
@@ -84,7 +84,6 @@ public class InventoryCtl extends BaseCtl {
 		map.put(1, "Leptop");
 		map.put(2, "Mobile");
 		map.put(3, "Ac ");
-	
 
 		request.setAttribute("ilnes", map);
 	}
@@ -94,7 +93,7 @@ public class InventoryCtl extends BaseCtl {
 		InventoryBean bean = new InventoryBean();
 
 		bean.setId(DataUtility.getLong(request.getParameter("id")));
-		
+
 		bean.setSupplierName(DataUtility.getString(request.getParameter("supplierName")));
 		bean.setLastUpdatedDate(DataUtility.getDate(request.getParameter("lastUpdatedDate")));
 		bean.setQuantity(DataUtility.getLong(request.getParameter("quantity")));
@@ -158,12 +157,12 @@ public class InventoryCtl extends BaseCtl {
 					System.out.println(" U ctl DoPost 33333");
 					long pk = model.add(bean);
 
-					//ServletUtility.setBean(bean, request);
+					// ServletUtility.setBean(bean, request);
 					ServletUtility.setBean(bean, request);
-					
+
 					ServletUtility.setSuccessMessage("Inventory is successfully Added", request);
 
-					bean.setId(pk);
+					// bean.setId(pk);
 				}
 
 			} catch (ApplicationException e) {
